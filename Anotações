@@ -1,0 +1,115 @@
+Instala o cli do babel
+yarn add @babel/cli
+
+Criar o arquivo do babel no root do projeto .babelrc
+
+configurar o babel no package.json
+"dev": "babel ./main.js -o ./bundle.js -w"
+
+Entende o ambiente que o babel está trabalhando, ex: Browser, e converte para o formato que o ambiente entende
+yarn add @babel/preset-env
+Adicionar a configuração dentro do babelrc
+
+yarn add @babel/core
+
+Para dar suporte aos operadores rest e spread => (...)
+yarn add @babel/plugin-proposal-object-rest-spread
+adicionar a configuração dentro do babelrc
+
+Operador rest >> serve para pegaro resto das propriedades. Utilizar em conjunto com a desestruturação, exemplo:
+const usuario = {
+  nome: 'Felipe', idade: 29, empresa: 'particular'
+}
+const {nome, ...resto} = usuario; // pega o nome do objeto usuário e o restante das informações são jogadas para a variavel resto
+
+operador spread << Pega as informações de um objeto ou array e passa para outra estrutura de dados
+Ex:
+const arr1 = [1, 2, 3];
+const arr2 = [4, 5, 6];
+
+const arr3 = [...arr1, ...arr2] // resultado é um array novo com 1, 2, 3, 4, 5, 6
+
+const usuario1 = {
+  nome: 'Felipe',
+  idade: 23,
+  empresa: 'Particular'
+}
+
+const usuario2 = { ...usuario1, nome: 'Diego' }
+
+Webpack
+yarn add webpack webpack-cli -D
+
+criar o webpack.config.js
+
+Instalar o @babel/polyfill para disponibilizar outras funcionalidades ao babel
+yarn add @babel/polyfill -D
+Adicionar no entry, o @babel/polyfill junto com o main.js
+
+entry: arquivo principal
+output: onde o arquivo final será gerado
+module 
+  rules >> especifica os loaders e 
+          configura sob quais arquivos o loader
+          vai agir
+
+yarn add babel-loader << instala o loader do babel
+
+Executa o webpack
+"dev" : "webpack --mode=development -w"
+
+instala o webpack-dev-server
+yarn add webpack-dev-server
+
+Criar a configuração devServer { contentBase } no webpack config
+
+criar a configuração  "dev": "webpack-dev-server --mode=development" no package.json
+Quando o mode = development, o bundle é importado diretamente dentro do webpack-dev-server, portanto,
+não cria dentro do projeto
+Para criar o arquivo para produção, inserir a configuração no package.json
+"prod" : "webpack --mode=production"
+
+
+Importar/Exportar
+export default é a função padrão. Não vai precisar passar entre chaves na importação.
+O default é a função importada. Quando usa default, pode dar o nome que quiser na importação
+
+exemplo importação sem default
+import { soma, sub } from './calculadora';
+Para renomear funções sem default, tem que usar o as, exemplo:
+import { soma as qualquerNomeParaSoma, sub } from './calculadora';
+
+exemplo importação sem default
+import qualquerNomeParaSoma from './soma';
+import qualquerNomeParaSub from './sub';
+
+Quando o arquivo importado possui os dois, a importação será:
+import soma, { sub as QualquerNomeParaSub, div } from 'calculadora';
+
+Se tem varias funcoes, para não importar cada função
+import * as funcoes from './funcoes';
+
+
+Async/Await
+É uma feature do es8. Para funcionar tem que instalar uma dependência e configurar no babel
+yarn add @babel/plugin-transform-async-to-generator -D
+
+No babelrc, colocar o plugin plugin-transform-async-to-generator
+
+Toda função assinada com async vira uma promisse, portanto, pode utilizar then e catch nessas funções
+
+usando com arrow functions
+const executaPromise = async () => {
+  console.log(
+    await minhaPromise(),
+    await minhaPromise(),
+    await minhaPromise()
+    );
+}
+
+executaPromise();
+
+axios << lib para realizar requisições
+yarn add axios
+
+para pegar os erros(catch), usar o try catch nas funções com async await
